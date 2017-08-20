@@ -33,7 +33,8 @@
 		}
 		
 		select,
-		#locations {
+		#locations ,
+		#wikiElem{
 			display: block;
 			margin: 0px auto;
 			width: 80%;

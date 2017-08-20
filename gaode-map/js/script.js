@@ -10,7 +10,6 @@
 	}
 	var map, infoWindow;
 	var markers = [];
-
 	// 创建标记集合
 	var locations = [{
 			title: '天安门',
@@ -64,17 +63,43 @@
 		self.Name = ko.observable("");
 		self.ChosseName = ko.computed(function() {
 			if(!self.Name()) {
+				if(markers.length > 0){
+					for(var x in locations){
+						markers[x].show();
+					}
+				}
 				return locations;
 			} else {
-				return locations.filter(function(location) {
-					location.title === self.Name();
+				return locations.filter(function(location) {					
 					for (var x in locations) {
 					    if (locations[x].title.toLowerCase().indexOf(self.Name().toLowerCase()) >= 0) {
 					        markers[x].show();
+					        var wikiUrl = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search=' + locations[x].title + '&format=json&callback=wikiCallback';
+							var wikiRequestTimeout = setTimeout(function(){
+								$("#wikiElem").text('没有获得维基百科资源');
+							},8000)
+							
+							$.ajax({
+								type: "get",
+								url: wikiUrl,
+								async: true,
+								dataType: "jsonp",
+								success: function(response) {
+									var articalList = response[1];
+									for(var i = 0; i < articalList.length; i++) {
+										articalStr = articalList[i];
+										var url = 'https://zh.wikipedia.org/wiki/' + articalStr;
+										$("#wikiElem").append('<li><a href="' + url + '">' + articalStr + '</a></li>');
+									}
+									clearTimeout(wikiRequestTimeout);
+								}
+							});
 					    } else {
 					        markers[x].hide();
+					        
 					    }
 					}
+					return location.title === self.Name();
 				});
 
 			}
@@ -95,27 +120,19 @@
 			markers.push(marker);
 			//markers[i].setMap(map);
 			marker.content = '这里是' + title;
+			
 			marker.on('click', markerClick);
-			marker.setAnimation('AMAP_ANIMATION_DROP');
+			marker.setAnimation('AMAP_ANIMATION_DROP');	
 
+			
 		}
 		// 点击事件方法主体
 		function markerClick(e) {
 			infoWindow.setContent(e.target.content);
 			infoWindow.open(map, e.target.getPosition());
+
 		}
 
-		$.ajax({
-			url: "https://www.youtube.com/iframe_api",
-			//dataType:"jsonp",
-			context: document.body,
-			statusCode: {
-				404: function() {
-					alert("page not found");
-				}
-			}
-		}).done(function() {
-			$(this).css("banckground", "red");
-		});
+		
 
 	}
