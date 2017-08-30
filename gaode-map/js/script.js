@@ -1,10 +1,6 @@
 	var txt = "";
-	var mapErrorHandler = function(msg, url, l) {
-		txt = "There was an error on this page.\n\n"
-		txt += "Error: " + msg + "\n"
-		txt += "URL: " + url + "\n"
-		txt += "Line: " + l + "\n\n"
-		txt += "Click OK to continue.\n\n"
+	var mapErrorHandler = function() {
+		txt = "获取地图失败，请稍后再试"
 		alert(txt)
 		return true;
 	}
@@ -74,37 +70,44 @@
 					for (var x in locations) {
 					    if (locations[x].title.toLowerCase().indexOf(self.Name().toLowerCase()) >= 0) {
 					        markers[x].show();
-					        var wikiUrl = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search=' + locations[x].title + '&format=json&callback=wikiCallback';
-							var wikiRequestTimeout = setTimeout(function(){
-								$("#wikiElem").text('没有获得维基百科资源');
-							},8000)
-							
-							$.ajax({
-								type: "get",
-								url: wikiUrl,
-								async: true,
-								dataType: "jsonp",
-								success: function(response) {
-									var articalList = response[1];
-									for(var i = 0; i < articalList.length; i++) {
-										articalStr = articalList[i];
-										var url = 'https://zh.wikipedia.org/wiki/' + articalStr;
-										$("#wikiElem").append('<li><a href="' + url + '">' + articalStr + '</a></li>');
-									}
-									clearTimeout(wikiRequestTimeout);
-								}
-							});
+					        wikiAPI(locations[x].title);
 					    } else {
 					        markers[x].hide();
 					        
 					    }
 					}
+					$("#wikiElem").empty();
 					return location.title === self.Name();
 				});
 
 			}
 		});
-
+		//第三方API
+		function wikiAPI(loc){
+			var wikiUrl = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search=' + loc + '&format=json&callback=wikiCallback';
+			var wikiRequestTimeout = setTimeout(function() {
+				$("#wikiElem").text('没有获得维基百科资源');
+			}, 8000)
+			
+			$.ajax({
+				type: "get",
+				url: wikiUrl,
+				async: true,
+				dataType: "jsonp",
+				success: function(response) {
+					var articalList = response[1];
+					for(var i = 0; i < articalList.length; i++) {
+						articalStr = articalList[i];
+						var url = 'https://zh.wikipedia.org/wiki/' + articalStr;
+						$("#wikiElem").append('<li><a href="' + url + '">' + articalStr + '</a></li>');
+					}
+					clearTimeout(wikiRequestTimeout);
+				},
+				error：function (XMLHttpRequest, textStatus, errorThrown) { 
+  					alert(textStatus);
+				} 
+			});
+		}
 		// 添加标记并绑定标记事件
 		for(var i = 0; i < locations.length; i++) {
 			var position = locations[i].position;

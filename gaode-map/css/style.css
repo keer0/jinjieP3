@@ -40,6 +40,10 @@
 			width: 80%;
 			padding: 10px;
 		}
+		#wikiElem{
+			height: 65%;
+			overflow-y: auto;
+		}
 		
 		#map {
 			bottom: 0px;
@@ -69,7 +73,7 @@
 			position: relative;
 			z-index: 1;
 			width: 30%;
-			min-width: 150px;
+			min-width: 220px;
 			height: 100%;
 		}
 		@media screen and (max-width: 800px) {
