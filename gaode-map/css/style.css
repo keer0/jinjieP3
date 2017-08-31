@@ -62,32 +62,37 @@
 			padding: 10px 10px 30px 10px;
 			text-align: left;			
 			float: left;
-			width: 100%;
+			width: 30%;
+			position: absolute;
+			z-index: 1;
 		}
 		
 		#menu {
 			float: left;
 			display: none;
+			position: absolute;
+			left: 10px;
+			top: 10px;
+			z-index: 1;
 		}
-		#side{
+		/*#side{
 			position: relative;
 			z-index: 1;
 			width: 30%;
-			min-width: 220px;
 			height: 100%;
-		}
+		}*/
 		@media screen and (max-width: 800px) {
 			h1{font-size: 18px;}
 			select{font-size: 12px;}
 			#locations{font-size: 12px;}
-			#side{width: 32%;}
+			/*#side{width: 220px; left: -175px;}*/
 			.options-box{				
-				display: none;
-				width: 70%;
+				width: 200px;
+				/*display: none;*/
+				padding-top: 30px;
 			}
 			#menu {
 				display: block;
-				width: 20%;
 				
 			}
 			#map {

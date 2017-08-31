@@ -50,6 +50,7 @@
 		$("#menu").click(function() {
 			$(".options-box").fadeToggle();
 		});
+		
 
 	}
 
@@ -62,6 +63,7 @@
 				if(markers.length > 0){
 					for(var x in locations){
 						markers[x].show();
+						markers[x].setAnimation('AMAP_ANIMATION_DROP');
 					}
 				}
 				return locations;
@@ -70,6 +72,7 @@
 					for (var x in locations) {
 					    if (locations[x].title.toLowerCase().indexOf(self.Name().toLowerCase()) >= 0) {
 					        markers[x].show();
+					        markers[x].setAnimation('AMAP_ANIMATION_DROP');
 					        wikiAPI(locations[x].title);
 					    } else {
 					        markers[x].hide();
@@ -103,7 +106,7 @@
 					}
 					clearTimeout(wikiRequestTimeout);
 				},
-				error：function (XMLHttpRequest, textStatus, errorThrown) { 
+				error: function (XMLHttpRequest, textStatus, errorThrown) { 
   					alert(textStatus);
 				} 
 			});
