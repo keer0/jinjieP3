@@ -136,7 +136,12 @@
 		function markerClick(e) {
 			infoWindow.setContent(e.target.content);
 			infoWindow.open(map, e.target.getPosition());
-			marker.setAnimation('AMAP_ANIMATION_DROP');
+			markers.forEach(function(marker){
+				if(marker.content === e.target.content){
+					marker.setAnimation('AMAP_ANIMATION_DROP');
+				}
+			});
+			
 
 		}
 
