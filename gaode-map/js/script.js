@@ -47,9 +47,9 @@
 
 		var currentviewModle = new viewModle();
 		ko.applyBindings(currentviewModle);
-		$("#menu").click(function() {
-			$(".options-box").fadeToggle();
-		});
+//		$("#menu").click(function() {
+//			
+//		});
 		
 
 	}
@@ -58,6 +58,9 @@
 		var self = this;
 		self.NameList = ko.observableArray(["天安门", "前门", "天坛公园", "颐和园", "鸟巢"]);
 		self.Name = ko.observable("");
+		self.menuClick = function(){
+			$(".options-box").fadeToggle();
+		};
 		self.ChosseName = ko.computed(function() {
 			if(!self.Name()) {
 				if(markers.length > 0){
@@ -102,7 +105,7 @@
 					for(var i = 0; i < articalList.length; i++) {
 						articalStr = articalList[i];
 						var url = 'https://zh.wikipedia.org/wiki/' + articalStr;
-						$("#wikiElem").append('<li><a href="' + url + '">' + articalStr + '</a></li>');
+						$("#wikiElem").append('<li><a target="_blank" href="' + url + '">' + articalStr + '</a></li>');
 					}
 					clearTimeout(wikiRequestTimeout);
 				},
